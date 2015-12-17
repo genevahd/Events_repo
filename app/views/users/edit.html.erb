@@ -1,0 +1,51 @@
+<a href="/sessions/destroy"><button style="margin: 10px" class="btn btn-danger pull-right">Logout</button></a> 
+<a href="/users/<%=@user.id%>"><button style="margin: 10px" class="btn btn-primary pull-right">Back</button></a>
+<h1>Edit Your Profile, <%=@user.first_name %></h1>
+	<form class='form form-horizontal' action='/users' method='post'>
+	    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+	    <input type='hidden' name='_method' value='patch'>
+	    <input type='hidden' name='id' value="<%=@user.id%>">
+	    <div class="row form-group">
+	    	<label  class="label-control col-md-2">First Name</label>
+		    <input class="col-md-2" type="text" name="first_name" value="<%=@user.first_name %>">
+	    </div>
+	    <div class="row form-group">
+	    	<label  class="label-control col-md-2">Last Name</label>
+		    <input class="col-md-2" type="text" name="last_name" value="<%=@user.last_name %>">
+	    </div>
+	    <div class="form-group row">
+	    	<label class="label-control col-md-2">Email</label>
+		    <input class="col-md-2" type="text" name="email" value="<%=@user.email %>">
+	    </div>
+	    <div class="form-group row">
+	    	<label class="label-control col-md-2">City</label>
+		    <input class="col-md-2" type="text" name="city"  value="<%=@user.city %>">
+	    </div>
+	    <div class="form-group row">
+	    	<label class="label-control col-md-2">State</label>
+		    <input class="col-md-2" type="text" name="state" value="<%=@user.state %>">
+	    </div>
+	    <div class="row form-group">
+	    	<button class="btn btn-warning col-md-2 col-md-offset-2" type='submit'>Update Records</button>
+	    </div>
+	 </form>
+
+	 <form class="form form-horizontal" action="/users/<%=@user.id%>" method="post">
+	 	<input type='hidden' name='id' value="<%=@user.id%>">
+	 	<input type="hidden"  name="_method" value='delete'>
+	 	<input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+	 	<div class="row form-group">
+	    <button class="btn btn-sm btn-danger col-md-2 col-md-offset-2" style="margin-top: 30px; color:black"type="submit"><b>Delete Account</b></button>
+	    </div>
+	</form>
+
+	 <div class="row form-group">
+	    	<% if flash[:errors]%>
+		 	<% flash[:errors].each do |e| %>
+			<p style="color: red"><%= e %></p>
+			<%	end
+			end %>
+			<% if flash[:success]%>
+			<p style="color: green"><%= flash[:success] %></p>
+			<%	end %>
+	    </div>

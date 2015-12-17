@@ -1,0 +1,70 @@
+<a href="/sessions/destroy"><button style="margin: 10px" class="btn btn-danger pull-right">Logout</button></a> 
+<a href="/users/<%=@user.id%>"><button style="margin: 10px" class="btn btn-primary pull-right">Back</button></a>
+<h1><%= @event.name %></h1>
+<div class="col-md-4">
+<table class="table">
+	<tbody>
+		<tr>
+			<th>Host:</th>
+			<td><%= @event.user.first_name %></td>
+		</tr>
+		<tr>
+			<th>Date:</th>
+			<td><%= @event.date %></td>
+		</tr>
+		<tr>
+			<th>Location:</th>
+			<td><%= @event.city %></td>
+		</tr>
+	</tbody>
+</table>
+<h4>People Joining the event: <%= @event.joins.count%></h4>
+<table class="table">
+	<thead>
+		<th>Name</th>
+		<th>Location</th>
+		<th>State</th>
+	</thead>
+	<tbody>
+		<% @event.users_joined.each do |u| %>
+			<tr>
+			<td><%= u.first_name %></td>
+			<td><%= u.city %></td>
+			<td><%= u.state %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
+</div>
+<div class="col-md-4 col-md-offset-3">
+	<div class="row">
+	    		<h4 class='pull-right'>Discussion about this event:</h4>
+	    	</div>
+	<form action="/comments" method="post" role="form">
+		<input type ="hidden" name="authenticity_token" method="post" value="<%= form_authenticity_token %>">
+		<input type='hidden' name='id' value="<%=@event.id%>">
+	    	<div class="row">
+		    	<div class="col-md-8 pull-right" style="margin-top: 5px; margin-bottom: 5px">
+		    		<% @event.comments.each do |c| %>
+		    			<p class="row pull-right" style="margin-top: 5px; margin-bottom: 5px"> <b><%=c.user.first_name%>  says: </b> <%=c.content%> </p>
+		    		<% end %>
+		    	</div>
+	    	</div>
+	    	<div class="row">
+	    		<h4 class='pull-right'>Add Comment</h4>
+	    	</div>
+	    	<div class="row">
+		    	<textarea class="col-md-8 pull-right" name="content"></textarea>
+		    </div>
+		<div class="row">
+	    	<button class="btn btn-success col-md-8 pull-right" type='submit'>Submit</button>
+	    </div>
+	    <div class="row col-md-8 pull-right">
+		    <% if flash[:errors]%>
+			 	<% flash[:errors].each do |e| %>
+				<p style="color: red"><%= e %></p>
+				<%	end
+			end %>
+		</div>
+	</form>
+</div>

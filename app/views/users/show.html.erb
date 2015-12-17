@@ -1,0 +1,109 @@
+<a href="/sessions/destroy"><button style="margin: 10px" class="btn btn-danger pull-right">Logout</button></a> 
+<a href="/users/<%=@user.id%>/edit"><button style="margin: 10px" class="btn btn-warning pull-right">Edit Profile</button></a>
+<h1>Welcome <%= @user.first_name %> <%= @user.last_name %></h1>
+
+<p>Here are some of the events at your state:</p>
+<table class="table table-hover">
+	<thead>
+		<th>Name</th>
+		<th>Date</th>
+		<th>Location</th>
+		<th>Host</th>
+		<th>Action/Status</th>
+	</thead>
+	<tbody>
+		<% @events_here.each do |e| %>
+		<tr>
+		<td><a href="/events/<%=e.id%>"><%= e.name %></a></td>
+		<td><%= e.date %></td>
+		<td><%= e.city %></td>
+		<td><%= e.user.first_name %></td>
+
+		<% if e.user.id == @user.id %>
+			<td><a href="/events/<%= e.id %>/edit">Edit </a>
+			| <a href="/events/<%= e.id %>" data-method="delete">Delete</a></td>
+
+		<% else %>
+			<% if e.users_joined.include? current_user%>
+				<td>Going | <a href="/joins/<%=e.id%>" data-method="delete">Cancel</td>
+			<% else %>
+				<td><a href="/joins/<%= e.id %>/create">Join</a>
+			<% end %>
+		<% end %>
+			</td>
+
+		</tr><% end %>
+	</tbody>
+</table>
+
+
+
+<p>Here are some of the events in other states:</p>
+<table class="table table-hover">
+	<thead>
+		<th>Name</th>
+		<th>Date</th>
+		<th>Location</th>
+		<th>Host</th>
+		<th>State</th>
+		<th>Action/Status</th>
+	</thead>
+	<tbody>
+		<% @events_away.each do |e| %>
+		<tr>
+		<td><a href="/events/<%=e.id%>"><%= e.name %></td>
+		<td><%= e.date %></td>
+		<td><%= e.city %></td>
+		<td><%= e.state %></td>
+		<td><%= e.user.first_name %></td>
+		
+		<% if e.user.id == @user.id %>
+			<td><a href="/events/<%= e.id %>/edit">Edit </a>
+			| <a href="/events/<%= e.id %>" data-method="delete">Delete</a></td>
+
+		<% else %>
+			<% if e.users_joined.include? current_user%>
+				<td>Going | <a href="/joins/<%=e.id%>" data-method="delete">Cancel</td>
+			<% else %>
+				<td><a href="/joins/<%= e.id %>/create">Join</a>
+			<% end %>
+		<% end %>
+			</td>
+
+		</tr><% end %>
+	</tbody>
+</table>
+
+<h3>Add Event</h3>
+
+<div class="col-md-6">
+<form action="/events" method="post" role="form">
+		<input type ="hidden" name="authenticity_token" method="post" value="<%= form_authenticity_token %>">
+		<div class="form-group row">
+	    	<label class="label-control col-md-2">Name</label>
+		    <input class="col-md-4" type="text" name="name">
+	    </div>
+		<div class="row form-group">
+	    	<label  class="label-control col-md-2">Date</label>
+		    <input class="col-md-4" type="date" name="date">
+	    </div>
+	    <div class="form-group row">
+	    	<label class="label-control col-md-2">City</label>
+		    <input class="col-md-4" type="text" name="city">
+	    </div>
+	    <div class="form-group row">
+	    	<label class="label-control col-md-2">State</label>
+		    <input class="col-md-4" type="text" name="state">
+	    </div>
+		<div class="row form-group">
+	    	<button class="btn btn-primary col-md-4 col-md-offset-2" type='submit'>Create Event</button>
+	    </div>
+	</form>
+</div>
+<div class="col-md-6">
+    	<% if flash[:errors]%>
+	 	<% flash[:errors].each do |e| %>
+		<p style="color: red"><%= e %></p>
+		<%	end
+		end %>
+</div>

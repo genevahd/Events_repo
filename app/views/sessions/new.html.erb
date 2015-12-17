@@ -1,0 +1,68 @@
+<h1>Welcome!</h1>
+<div class="col-md-6">
+	<h3>Register</h3>
+	<form action='/users' method='post'>
+	    <input type='hidden' name='authenticity_token' value='<%= form_authenticity_token %>'>
+	    <div class="row form-group">
+	    	<label  class="label-control col-md-2">First Name</label>
+		    <input class="col-md-4" type="text" name="first_name">
+	    </div>
+	    <div class="row form-group">
+	    	<label  class="label-control col-md-2">Last Name</label>
+		    <input class="col-md-4" type="text" name="last_name">
+	    </div>
+	    <div class="form-group row">
+	    	<label class="label-control col-md-2">Email</label>
+		    <input class="col-md-4" type="text" name="email">
+	    </div>
+	    <div class="form-group row">
+	    	<label class="label-control col-md-2">City</label>
+		    <input class="col-md-4" type="text" name="city">
+	    </div>
+	    <div class="form-group row">
+	    	<label class="label-control col-md-2">State</label>
+		    <input class="col-md-4" type="text" name="state">
+	    </div>
+	    <div class="row form-group">
+	    	<label  class="label-control col-md-2">Password</label>
+		    <input class="col-md-4" type="password" name="password">
+	    </div>
+	    <div class="row form-group">
+	    	<label  class="label-control col-md-2">Confirm Password</label>
+		    <input class="col-md-4" type="password" name="password_confirmation">
+	    </div>
+	    <div class="row form-group">
+	    	<button class="btn btn-success col-md-4 col-md-offset-2" type='submit'>Join</button>
+	    </div>
+	    <div class="row form-group">
+	    	<% if flash[:errors]%>
+		 	<% flash[:errors].each do |e| %>
+			<p><%= e %></p>
+			<%	end
+			end %>
+	    </div>
+	 </form>
+</div>
+<div class="col-md-6">
+	<h3>Login</h3>
+	<form action="/sessions" method="post" role="form">
+		<input type ="hidden" name="authenticity_token" method="post" value="<%= form_authenticity_token %>">
+		<div class="form-group row">
+	    	<label class="label-control col-md-2">Email</label>
+		    <input class="col-md-4" type="text" name="email">
+	    </div>
+		<div class="row form-group">
+	    	<label  class="label-control col-md-2">Password</label>
+		    <input class="col-md-4" type="password" name="password">
+	    </div>
+		<div class="row form-group">
+	    	<button class="btn btn-success col-md-4 col-md-offset-2" type='submit'>Log in</button>
+	    </div>
+	    <div class="row form-group">
+		    <% if flash[:error]%>
+			<p><%= flash[:error] %></p>
+			<%	end %>
+		</div>
+	</form>
+</div>
+
